@@ -1,0 +1,9 @@
+{
+	"name": "ADFSep4",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "617d086a-2063-448f-a411-d77b01c64a38",
+		"tenantId": "f33f4216-096e-4f97-a06d-80768c70bf90"
+	}
+}
