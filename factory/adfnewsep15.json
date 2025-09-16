@@ -1,0 +1,9 @@
+{
+	"name": "adfnewsep15",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "776f9091-4da2-4b7c-8d4a-a4ff09195304",
+		"tenantId": "f33f4216-096e-4f97-a06d-80768c70bf90"
+	}
+}
