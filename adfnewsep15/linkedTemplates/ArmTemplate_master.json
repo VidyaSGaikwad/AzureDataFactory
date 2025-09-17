@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adfnewsep15"
 		},
+		"ls_AzureDataLakeStorage_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_AzureDataLakeStorage'"
+		},
 		"ls_ablob_covidereportingsa_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_ablob_covidereportingsa'"
@@ -15,9 +19,25 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_adls_covidreportingdl'"
 		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://github.com"
+		},
+		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adfdatalakesav.dfs.core.windows.net/"
+		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adfdatalakesav.dfs.core.windows.net/"
+		},
+		"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SourceRelativeURL": {
+			"type": "string",
+			"defaultValue": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
+		},
+		"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SinkFileName": {
+			"type": "string",
+			"defaultValue": "hospital_admissions.csv"
 		},
 		"tr_ingest_population_data_properties_typeProperties_scope": {
 			"type": "string",
@@ -50,14 +70,29 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ls_AzureDataLakeStorage_accountKey": {
+						"value": "[parameters('ls_AzureDataLakeStorage_accountKey')]"
+					},
 					"ls_ablob_covidereportingsa_connectionString": {
 						"value": "[parameters('ls_ablob_covidereportingsa_connectionString')]"
 					},
 					"ls_adls_covidreportingdl_accountKey": {
 						"value": "[parameters('ls_adls_covidreportingdl_accountKey')]"
 					},
+					"HttpServer1_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
+					},
+					"ls_AzureDataLakeStorage_properties_typeProperties_url": {
+						"value": "[parameters('ls_AzureDataLakeStorage_properties_typeProperties_url')]"
+					},
 					"ls_adls_covidreportingdl_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_covidreportingdl_properties_typeProperties_url')]"
+					},
+					"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SourceRelativeURL": {
+						"value": "[parameters('tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SourceRelativeURL')]"
+					},
+					"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SinkFileName": {
+						"value": "[parameters('tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SinkFileName')]"
 					},
 					"tr_ingest_population_data_properties_typeProperties_scope": {
 						"value": "[parameters('tr_ingest_population_data_properties_typeProperties_scope')]"
