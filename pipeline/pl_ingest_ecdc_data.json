@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_ecdc_data",
-				"type": "Copy",
+				"name": "lookup_file_list_data",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -16,65 +16,112 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "JsonSource",
 						"storeSettings": {
-							"type": "HttpReadSettings",
-							"requestMethod": "GET"
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"maxConcurrentConnections": 1
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+					"dataset": {
+						"referenceName": "ds_get_file_list",
+						"type": "DatasetReference"
 					}
-				},
-				"inputs": [
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
 					{
-						"referenceName": "ds_ecdc_raw_csv_http",
-						"type": "DatasetReference",
-						"parameters": {
-							"RelativeURL": {
-								"value": "@pipeline().parameters.SourceRelativeURL",
-								"type": "Expression"
-							},
-							"BaseURL": {
-								"value": "@pipeline().parameters.SourceBaseURL",
-								"type": "Expression"
-							}
-						}
+						"activity": "lookup_file_list_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
-				"outputs": [
-					{
-						"referenceName": "ds_ecdc_raw_csv_dl",
-						"type": "DatasetReference",
-						"parameters": {
-							"FIleName": {
-								"value": "@pipeline().parameters.SinkFileName",
-								"type": "Expression"
-							}
+				"userProperties": [],
+				"typeProperties": {
+					"activities": [
+						{
+							"name": "Copy_ecdc_data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "HttpReadSettings",
+										"requestMethod": "GET"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings",
+										"maxConcurrentConnections": 1
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_ecdc_raw_csv_http",
+									"type": "DatasetReference",
+									"parameters": {
+										"RelativeURL": {
+											"value": "@pipeline().parameters.SourceRelativeURL",
+											"type": "Expression"
+										},
+										"BaseURL": {
+											"value": "@pipeline().parameters.SourceBaseURL",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_ecdc_raw_csv_dl",
+									"type": "DatasetReference",
+									"parameters": {
+										"FIleName": {
+											"value": "@pipeline().parameters.SinkFileName",
+											"type": "Expression"
+										}
+									}
+								}
+							]
 						}
-					}
-				]
+					]
+				}
 			}
 		],
 		"parameters": {
