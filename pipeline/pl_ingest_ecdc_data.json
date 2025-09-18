@@ -29,7 +29,8 @@
 					"dataset": {
 						"referenceName": "ds_get_file_list",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -45,6 +46,11 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('lookup_file_list_data').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Copy_ecdc_data",
@@ -97,11 +103,11 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"RelativeURL": {
-											"value": "@pipeline().parameters.SourceRelativeURL",
+											"value": "@item().parameters.SourceRelativeURL",
 											"type": "Expression"
 										},
 										"BaseURL": {
-											"value": "@pipeline().parameters.SourceBaseURL",
+											"value": "@item().parameters.SourceBaseURL",
 											"type": "Expression"
 										}
 									}
@@ -113,7 +119,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"FIleName": {
-											"value": "@pipeline().parameters.SinkFileName",
+											"value": "@item().parameters.SinkFileName",
 											"type": "Expression"
 										}
 									}
