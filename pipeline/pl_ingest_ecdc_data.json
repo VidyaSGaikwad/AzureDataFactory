@@ -130,17 +130,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"SourceRelativeURL": {
-				"type": "string"
-			},
-			"SinkFileName": {
-				"type": "string"
-			},
-			"SourceBaseURL": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }
