@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "selectfilteredcolumn"
+				},
+				{
+					"name": "filtereuropedataonly"
 				}
 			],
 			"scriptLines": [
@@ -36,7 +39,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> casesanddeathsource",
-				"casesanddeathsource filter(continent == 'Europe' && not(isNull(country_code))) ~> filtereuropedata",
+				"filtereuropedataonly filter(continent == 'Europe' && not(isNull(country_code))) ~> filtereuropedata",
 				"filtereuropedata select(mapColumn(",
 				"          country,",
 				"          country_code,",
@@ -48,7 +51,8 @@
 				"               'Reported'+'_date' = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn"
+				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn",
+				"casesanddeathsource filter(continent == 'Europe' && not(isNull(country_code))) ~> filtereuropedataonly"
 			]
 		}
 	}
