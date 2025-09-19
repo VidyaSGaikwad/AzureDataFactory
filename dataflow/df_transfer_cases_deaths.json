@@ -21,7 +21,7 @@
 					"name": "selectfilteredcolumn"
 				},
 				{
-					"name": "pivottrans"
+					"name": "pivotcolumn"
 				}
 			],
 			"scriptLines": [
@@ -52,8 +52,16 @@
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn",
-				"selectfilteredcolumn pivot(columnNaming: '$N$V',",
-				"     lateral: true) ~> pivottrans"
+				"selectfilteredcolumn pivot(groupBy(country,",
+				"          country_code,",
+				"          source,",
+				"          Reported_date,",
+				"          population,",
+				"          country_special = country + country_code),",
+				"     pivotBy(indicator),",
+				"     Count = sum(daily_count),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivotcolumn"
 			]
 		}
 	}
