@@ -19,6 +19,9 @@
 				},
 				{
 					"name": "selectfilteredcolumn"
+				},
+				{
+					"name": "pivottrans"
 				}
 			],
 			"scriptLines": [
@@ -48,7 +51,9 @@
 				"               'Reported'+'_date' = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn"
+				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn",
+				"selectfilteredcolumn pivot(columnNaming: '$N$V',",
+				"     lateral: true) ~> pivottrans"
 			]
 		}
 	}
