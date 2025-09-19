@@ -32,6 +32,9 @@
 				},
 				{
 					"name": "lookuptransformation"
+				},
+				{
+					"name": "selectforsink"
 				}
 			],
 			"scriptLines": [
@@ -85,7 +88,24 @@
 				"pivotcolumn, countrylookup lookup(pivotcolumn@country == countrylookup@country,",
 				"     multiple: false,",
 				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookuptransformation"
+				"     broadcast: 'auto')~> lookuptransformation",
+				"lookuptransformation select(mapColumn(",
+				"          country = pivotcolumn@country,",
+				"          country_code,",
+				"          source,",
+				"          Reported_date,",
+				"          population = pivotcolumn@population,",
+				"          country_special,",
+				"          {confirmed cases_Count},",
+				"          deaths_Count,",
+				"          country = countrylookup@country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          continent,",
+				"          population = countrylookup@population",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectforsink"
 			]
 		}
 	}
