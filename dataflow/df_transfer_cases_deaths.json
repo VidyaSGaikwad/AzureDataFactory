@@ -13,22 +13,42 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "filtereuropedata"
+				},
+				{
+					"name": "selectfilteredcolumn"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          country as string,",
 				"          country_code as string,",
 				"          continent as string,",
-				"          population as string,",
+				"          population as integer,",
 				"          indicator as string,",
-				"          daily_count as string,",
-				"          date as string,",
-				"          rate_14_day as string,",
+				"          daily_count as integer,",
+				"          date as date,",
+				"          rate_14_day as double,",
 				"          source as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> casesanddeathsource"
+				"     ignoreNoFilesFound: false) ~> casesanddeathsource",
+				"casesanddeathsource filter(continent == 'Europe' && not(isNull(country_code))) ~> filtereuropedata",
+				"filtereuropedata select(mapColumn(",
+				"          country,",
+				"          country_code,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          source,",
+				"          each(match(name == 'date'),",
+				"               'Reported'+'_date' = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> selectfilteredcolumn"
 			]
 		}
 	}
