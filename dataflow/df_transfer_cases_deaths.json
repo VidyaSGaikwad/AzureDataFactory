@@ -19,7 +19,19 @@
 					"name": "countrylookup"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_processed_cases_and_deaths",
+						"type": "DatasetReference"
+					},
+					"name": "sinkcasesanddeathsdata",
+					"rejectedDataLinkedService": {
+						"referenceName": "ls_AzureDataLakeStorage",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "filtereuropedata"
@@ -91,21 +103,24 @@
 				"     broadcast: 'auto')~> lookuptransformation",
 				"lookuptransformation select(mapColumn(",
 				"          country = pivotcolumn@country,",
-				"          country_code,",
-				"          source,",
-				"          Reported_date,",
-				"          population = pivotcolumn@population,",
-				"          country_special,",
-				"          {confirmed cases_Count},",
-				"          deaths_Count,",
-				"          country = countrylookup@country,",
 				"          country_code_2_digit,",
 				"          country_code_3_digit,",
-				"          continent,",
-				"          population = countrylookup@population",
+				"          population = pivotcolumn@population,",
+				"          cases_Count = {confirmed cases_Count},",
+				"          deaths_Count,",
+				"          Reported_date,",
+				"          source",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectforsink"
+				"     skipDuplicateMapOutputs: true) ~> selectforsink",
+				"selectforsink sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     truncate: true,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkcasesanddeathsdata"
 			]
 		}
 	}
