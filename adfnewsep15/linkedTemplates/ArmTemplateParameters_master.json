@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adfnewsep15"
 		},
+		"blob_AzureBlobStorage_connectionString": {
+			"value": ""
+		},
 		"ls_AzureDataLakeStorage_accountKey": {
 			"value": ""
 		},
@@ -15,19 +18,13 @@
 			"value": ""
 		},
 		"HttpServer1_properties_typeProperties_url": {
-			"value": "https://github.com"
+			"value": "@{linkedService().sourceBaseURL}"
 		},
 		"ls_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adfdatalakesav.dfs.core.windows.net/"
 		},
 		"ls_adls_covidreportingdl_properties_typeProperties_url": {
 			"value": "https://adfdatalakesav.dfs.core.windows.net/"
-		},
-		"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SourceRelativeURL": {
-			"value": "cloudboxacademy/covid19/raw/main/ecdc_data/hospital_admissions.csv"
-		},
-		"tr_ingest_hospital_addmission_data_properties_pl_ingest_ecdc_data_parameters_SinkFileName": {
-			"value": "hospital_admissions.csv"
 		},
 		"tr_ingest_population_data_properties_typeProperties_scope": {
 			"value": "/subscriptions/e738b6dd-9b8f-45bb-99cb-73d068f5c25e/resourceGroups/AzureRGSep4/providers/Microsoft.Storage/storageAccounts/adfblobsep4"
