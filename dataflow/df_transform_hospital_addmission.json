@@ -51,6 +51,12 @@
 				},
 				{
 					"name": "pivotDaily"
+				},
+				{
+					"name": "sortWeekly"
+				},
+				{
+					"name": "sortDaily"
 				}
 			],
 			"scriptLines": [
@@ -136,6 +142,8 @@
 				"          country_code_3_digit,",
 				"          population,",
 				"          Reported_year_week,",
+				"          week_start_date,",
+				"          week_end_date,",
 				"          source),",
 				"     pivotBy(indicator, ['Weekly new ICU admissions per 100k', 'Weekly new hospital admissions per 100k']),",
 				"     count = sum(value),",
@@ -150,7 +158,11 @@
 				"     pivotBy(indicator, ['Daily hospital occupancy', 'Daily ICU occupancy']),",
 				"     count = sum(value),",
 				"     columnNaming: '$V_$N',",
-				"     lateral: true) ~> pivotDaily"
+				"     lateral: true) ~> pivotDaily",
+				"pivotweekly sort(desc(Reported_year_week, true),",
+				"     asc(country, true)) ~> sortWeekly",
+				"pivotDaily sort(desc(Reported_date, true),",
+				"     asc(country, true)) ~> sortDaily"
 			]
 		}
 	}
